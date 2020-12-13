@@ -1,0 +1,53 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>jeffrey_cosio_cohort209_color_flipper.html</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--<link rel="stylesheet" href="styles.css">-->
+</head>
+
+<body>
+
+	<!--/////////////////////START BUILDING THE BODY/////////////////////-->
+		<!--///////CENTER THE ORIGINAL DIV///////-->
+		<div style ="text-align:center; margin-top:40vh; medium; width:35%; margin-left:auto; margin-right:auto; background-color:black;color:#32CD32;">
+		
+		<h3 style =" padding-bottom:0.2em;padding-top:0.2em;">Welcome to Jeffrey Cosio's Hex Color Flipper!</h3>
+		<p id="body_p">Background Color is:&#9;<span id ="body_span">#??????</span></p>
+			<!--///////Center the Button///////-->
+			<div style="text-align:center;">
+			<button type="button" style="margin-bottom:1em; background-color:black;color:#32CD32;border-color:#32CD32; border-width: 3px;"
+			onclick="body_color_flipper()">Change Background Body Color</button>
+			</div>
+			<!--///////END BUTTON///////>
+		</div>
+	
+	<!--//////////////////////////////JS SCRIPT(S)//////////////////////////////-->
+	<script>
+		function body_color_flipper()
+			{
+				var new_hex_code; 
+				//HEX COLOR GEN SRC:https://css-tricks.com/snippets/javascript/random-hex-color/
+				new_hex_code = "#" + Math.floor(Math.random()*16777215).toString(16);
+				//^ # + is by me. The rest of previous line is from src. Who's going to memorize that by heart??
+				
+				document.body.style.backgroundColor = new_hex_code;
+				document.getElementById('body_span').textContent = new_hex_code;;
+			}
+
+	</script>
+	<!--//////////////////////////////END JS SCRIPT(S)//////////////////////////////-->
+	
+	<!--/////////////////////END BODY/////////////////////-->
+  
+</body>
+
+
+
+<!--END PAGE!-->
+</html>

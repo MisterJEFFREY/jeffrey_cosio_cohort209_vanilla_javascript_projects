@@ -1,0 +1,132 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>jeffrey_cosio_cohort209_todo_list_output.html</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+	<!--DEFAULTING TABLE STYLING-->
+	<style>
+		table, td {
+		  border: 2px solid #32CD32;
+		}
+</style>
+  <!--<link rel="stylesheet" href="styles.css">-->
+</head>
+
+<body style ="background-color:black; border:solid; border-width:0.5em; border-color:#32CD32; min-height:96.25vh;">
+
+	<!--/////////////////////START BUILDING THE BODY/////////////////////-->
+		<!--///////CENTER THE ORIGINAL DIV///////-->
+		<div style ="text-align:center; margin-top:30vh; medium; width:35%;  margin-left:auto; margin-right:auto; background-color:black;color:#32CD32;">
+		
+			<h3 style ="padding-bottom:0.2em;padding-top:0.2em;">Welcome to Jeffrey Cosio's ToDo List Outputter!</h3>
+			
+			<!--///////////TODO LIST APPENDING ITEMS///////////-->
+			<label for="todo_item">TODO ITEM:</label>
+			<input type="text" id="todo_item" name="todo_item" required><br><br>
+			
+			<label for="todo_item">TODO DATE:</label>
+			<input type="date" id="todo_item_date" name="todo_item_date" style="padding-left:30px;padding-right:4px;" required><br><br>
+			
+			<label for="todo_item_info">TODO INFO:</label>
+			<input type="text" id="todo_item_info" name="todo_item_info"><br><br>
+			
+			<button type="button" onclick="submit_todo_item();">SUBMIT TODO ITEM</button><br><br>
+			
+			<label style="">CURRENT TODO LIST:</label>
+			
+			<!--/////////////ERROR MESSAGE LABEL/////////////-->
+			<label style="color:red; display:none; ">ERROR MESSAGE</label><br>
+			
+			<!--////////EMPTY TO DO LIST!-->
+			<!-- <table id="todo_list" style="table-layout:fixed;"> -->
+			<div>
+			<table id="todo_list" style="display:none; text-align:center;margin-top:2em;margin-bottom:2em;">
+			<!--NO ITEMS PLACED HERE INITIALLY!-->
+			</table>
+			</div>
+
+			<button type="button" style="margin-top:2em;" onclick="export_todo_list();">EXPORT TODO LIST</button><br><br>
+			
+		</div>
+	
+	<!--//////////////////////////////JS SCRIPT(S)//////////////////////////////-->
+	<script>
+	
+		function submit_todo_item()
+			{
+				//RESOURCES: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_table_insert_deleterow
+				
+				///////////////////////////////////////////////////////INIT THE VARS///////////////////////////////////////////////////////
+				var table			= document.getElementById("todo_list");	table.style.display = "inline-block";
+				var row 			= table.insertRow(0);
+
+				//Insert new row for the two entries: ITEM & DATE, along with their values
+				var row 					= table.insertRow(0);
+				var todo_item_entry 		= row.insertCell(0);
+				var todo_date_entry 		= row.insertCell(1);
+				todo_item_entry.innerHTML 	= todo_item.value;
+				
+				///Since the Inputted year gets added in first, we'll fix that and place it on screen correctly.
+				var date_fixed 				= todo_item_date.value; //2020-12-25
+				temp_var					= date_fixed.slice(0,4); 		//2020 
+				temp_var_2 					= date_fixed.slice(5,10) + "-";	//12-25 + "-"
+				date_fixed 					= temp_var_2 + temp_var;
+				todo_date_entry.innerHTML 	= "DEADLINE: " + date_fixed;
+				/////////////////I don't think this was proper to make, just to put the year at the end in MM-DD-YYYY format
+				/////////////////But it's not my fault that JS receives DATE INPUT as YYYY-MM-DD
+
+				//Create new row for the next entry: ITEM INFO
+				var row 						= table.insertRow(1);
+				var todo_info_entry 			= row.insertCell(0);
+				table.rows[1].cells[0].colSpan 	= "2";
+				todo_info_entry.innerHTML		= todo_item_info.value;
+				
+				//Then create a delete entry option to delete TODO list
+				var row 						= table.insertRow(2);
+				//var delete_button 				= row.insertCell(0);
+				var delete_button 				= document.createElement("BUTTON");
+				table.rows[2].appendChild(delete_button);
+				//////////////////Now add proper styling to the button!//////////////////
+				delete_button.innerHTML				= "DELETE ITEM ENTRY";
+				delete_button.style.marginLeft		= "60%";
+				delete_button.style.marginTop		= "0.25em";
+				delete_button.style.marginBottom	= "0.25em";
+				delete_button.style.width			= "100%";
+				delete_button.style.backgroundColor = "black";
+				delete_button.style.color			= "red";
+				delete_button.style.border			= "2px";
+				delete_button.solid					= "red";
+				
+				delete_button.onclick				= "delete_todo_item()";
+				/////////////////////////////////////////////////////////////////////////
+			}
+			
+		function delete_todo_item(event)
+			{
+				var table			= document.getElementById("todo_list");
+				console.log(table.rowCount);
+				table.deleteRow(rowCount - 3);
+				table.deleteRow(rowCount - 2);
+				table.deleteRow(rowCount - 1);
+			}
+			
+		function export_todo_list()
+			{
+			}
+
+	</script>
+	<!--//////////////////////////////END JS SCRIPT(S)//////////////////////////////-->
+	
+	<!--/////////////////////END BODY/////////////////////-->
+  
+</body>
+
+
+
+<!--END PAGE!-->
+</html>

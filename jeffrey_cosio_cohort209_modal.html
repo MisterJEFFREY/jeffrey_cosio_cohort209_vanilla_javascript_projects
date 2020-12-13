@@ -1,0 +1,173 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>jeffrey_cosio_cohort209_color_modal.html</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--<link rel="stylesheet" href="styles.css">-->
+  
+	<script>
+		//window.onload = function() {
+		//var context = new AudioContext();
+		//}
+	</script>
+	
+	<!--NEEDED STYLING FOR THE MODAL PARTS
+	SRC:https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
+	--> 
+	<style>
+			.modal {
+		  display: none; /* Hidden by default */
+		  position: fixed; /* Stay in place */
+		  z-index: 1; /* Sit on top */
+		  padding-top: 100px; /* Location of the box */
+		  left: 0;
+		  top: 0;
+		  width: 100%; /* Full width */
+		  height: 100%; /* Full height */
+		  overflow: auto; /* Enable scroll if needed */
+		  background-color: rgb(0,0,0); /* Fallback color */
+		  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+		}
+
+		/* Modal Content */
+		.modal-content {
+		  background-color:#c5c5d4;
+		  margin: auto;
+		  margin-top:23.8vh;
+		  border: 3px solid black;
+		  width: 34.1%;
+		}
+
+		/* The Close Button */
+		.close {
+
+		}
+	</style>
+</head>
+
+<body style="background-color:#02777d; background-image: url('custom_win95_background.png'); background-repeat: no-repeat;   background-attachment: fixed;
+  background-size: cover; background-size: 100% 100%;" onkeydown="test_close();">
+
+		<audio id="msg_sfx"src="windows-95-tada-sound-effect.mp3" autoplay="true" muted="muted"></audio>
+	
+	<!--/////////////////////START BUILDING THE BODY/////////////////////-->
+		<!--///////CENTER THE ORIGINAL DIV///////-->
+		<div style ="text-align:center; margin-top:40vh; medium; width:35%; margin-left:auto; margin-right:auto; background-color:#c5c5d4;">
+		
+			<!--//////STYLIZE NEW DIV CONTAINER FOR THE ELEMENTS//////--->
+			<div STYLE="border:solid; border-width:3px; border-color:black;">
+		
+			<h3 style ="padding-left:2%; text-align:left; background-color:#0c0e91; color:white; padding-bottom:0.4em; padding-top:0.3em; margin-top:0em; ">MARTY SAYS...
+			<span style ="float:right; margin-right:1%; margin-bottom:1em; border:solid; padding-left:1%;padding-right:1%;
+			border-width: 2px; border-color:black; background-color:#c5c5d4; cursor: not-allowed !important; ">X</span>
+			</h3>
+			
+			
+			<p id="body_p"> <span style ="text-align:left; margin-left:2%;" ><img src="http://error-png.smasher.org/Error.png"></span>
+			Your 30 day free trial of Bay Valley Tech has expired. </p>
+			
+			<p>
+			<span style="text-align:center; margin-left:1em; margin-right:0.5em;">Please purchase the full version to continue EXISTING in the CODE COHORT.</span>
+			</p>
+				<!--///////Center the Button///////-->
+				<div style="text-align:center;">
+				<button id = "purchase_btn"type="button" style="margin-bottom:1em; border-width: 2px; background-color:#c5c5d4;">PURCHASE</button>
+				<button type="button" style="margin-bottom:1em; border-width: 2px; background-color:#c5c5d4;"
+				onclick="test_close()">Return to the VOID</button>
+				</div>
+				<!--///////END BUTTON///////-->
+				
+			</div>
+		<!---///////////////END OVERALL DIV///////////////-->
+		</div>
+		
+		
+		<!--//////////////////////START MODAL//////////////////////-->
+		<!-- The Modal -->
+			<div id="myModal" class="modal">
+			  <!-- Modal content -->
+
+			  <div class="modal-content">
+					<h3 style ="padding-left:2%; text-align:left; background-color:#0c0e91; color:white; padding-bottom:0.4em; padding-top:0.3em; margin-top:0em; ">MARTY SAYS...
+					<span style ="float:right; margin-right:1%; margin-bottom:1em; border:solid; padding-left:1%;padding-right:1%;
+					border-width: 2px; border-color:black; background-color:#c5c5d4; cursor: not-allowed !important; ">X</span></h3>
+					<p id="body_p" style="text-align:left; margin-left:5%;"> <span style ="text-align:left; margin-left:3%; margin-right:9%;" ><img src="http://error-png.smasher.org/cake.png"></span>
+					Marty just recieved payment!<br><br></p>
+					
+					<p style="text-align:center;">
+					Full version existance in CODE COHORT has been successfully purchased!<br><br>
+					You can continue to code!</span>
+					</p>
+					
+				<!-- <span class="close">&times;</span> -->
+					<button class = "close" type="button" style="margin-bottom:1em; border-width: 2px; background-color:#c5c5d4; 
+					margin-left:35%; ">CLOSE WINDOW</button>
+			  </div>
+			</div>
+	
+	<!--//////////////////////////////JS SCRIPT(S)//////////////////////////////-->
+	<script>
+			//JS SOURCE SRC:https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_modal
+			// Get the modal
+			var modal = document.getElementById("myModal");
+
+			// Get the button that opens the modal
+			var btn = document.getElementById("purchase_btn");
+
+			// Get the <span> element that closes the modal
+			var span = document.getElementsByClassName("close")[0];
+			
+			// Get the sound fx:
+			var snd_fx = document.getElementById('msg_sfx');
+
+
+			// When the user clicks the button, open the modal 
+			btn.onclick = function() {
+			  modal.style.display = "block";
+			  snd_fx.muted = false;
+			  snd_fx.play();
+			}
+
+			// When the user clicks on exit button, close the modal
+			span.onclick = function() {
+			  modal.style.display = "none";
+			  //snd_fx.muted = true;
+			  snd_fx.pause();
+			  snd_fx.currentTime = 0;
+			}
+
+			// When the user clicks anywhere outside of the modal, close it
+			window.onclick = function(event) {
+			  if (event.target == modal) {
+				//modal.style.display = "none";
+			  }
+			}
+
+	</script>
+	
+	<script>
+	//Meme to reference: MEME Error Your 30 Day Free Trial of EXISTENCE Has Expired
+	//https://www.google.com/imgres?imgurl=https%3A%2F%2Fpics.me.me%2Ferror-your-30-day-free-trial-of-existence-has-expired-35418732.png&imgrefurl=https%3A%2F%2Fme.me%2Fi%2Ferror-your-30-day-free-trial-of-existence-has-expired-3a9d0abc20904035a12c0bddfae63701&tbnid=OuNqdnl6FsE-LM&vet=12ahUKEwiBn97ArsXtAhUShp4KHb3TCjcQMygaegUIARC_AQ..i&docid=2EXotzzf1ofbqM&w=500&h=400&q=your%20free%20trial%20of%20life%20has%20expired%20ifunny&hl=en&ved=2ahUKEwiBn97ArsXtAhUShp4KHb3TCjcQMygaegUIARC_AQ
+	function test_close()
+		{
+			window.close();
+		}
+	
+	</script>
+	
+	
+	<!--//////////////////////////////END JS SCRIPT(S)//////////////////////////////-->
+	
+	<!--/////////////////////END BODY/////////////////////-->
+  
+</body>
+
+
+
+<!--END PAGE!-->
+</html>
