@@ -1,0 +1,240 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>jeffrey_cosio_cohort209_todo_list_output.html</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+	<!--DEFAULTING TABLE STYLING-->
+	<style>
+		table, td {
+		  border: 2px solid #32CD32;
+		}
+</style>
+  <!--<link rel="stylesheet" href="styles.css">-->
+</head>
+
+<body style ="background-color:black; border:solid; border-width:0.5em; border-color:#32CD32; min-height:96.25vh;">
+
+	<!--/////////////////////START BUILDING THE BODY/////////////////////-->
+		<!--///////CENTER THE ORIGINAL DIV///////-->
+		<div style ="text-align:center; margin-top:30vh; medium; width:35%;  margin-left:auto; margin-right:auto; background-color:black;color:#32CD32;">
+		
+			<h3 style ="padding-bottom:0.2em;padding-top:0.2em;">Welcome to Jeffrey Cosio's ToDo List Outputter!</h3>
+			
+			<!--///////////TODO LIST APPENDING ITEMS///////////-->
+			<label id="todo_item_error_msg" 		style="display:none; color:red; margin-bottom:0.5em;">INVALID TODO ITEM ENTRY!</label>
+			<label for="todo_item">TODO ITEM:</label>
+			<input type="text" id="todo_item" name="todo_item" 				style ="border-color:#32CD32; background-color:black;color:#4efc03;"><br><br>
+			
+			<label id="todo_item_date_error_msg" 	style="display:none; color:red; margin-bottom:0.5em;">INVALID TODO DATE ENTRY!</label>
+			<label for="todo_item_date">TODO DATE:</label>
+			<input type="date" id="todo_item_date" name="todo_item_date" 	style="padding-left:30px;padding-right:4px; border-color:#32CD32; background-color:black;color:#4efc03;"><br><br>
+			
+			<label id="todo_item_info_error_msg" 	style="display:none; color:red; margin-bottom:0.5em;">INVALID TODO INFO ENTRY!</label>
+			<label for="todo_item_info">TODO INFO:</label>
+			<input type="text" id="todo_item_info" name="todo_item_info" placeholder="Optional TODO Field" style = "border-color:#32CD32; background-color:black;color:#4efc03;"><br><br>
+			
+			<button type="button" onclick="submit_todo_item();" 			style ="border-color:#32CD32; background-color:black;color:#32CD32;">SUBMIT TODO ITEM</button><br><br>
+			
+			<label style="">CURRENT TODO LIST:</label>
+			
+			<!--/////////////ERROR MESSAGE LABEL/////////////-->
+			<label style="color:red; display:none; ">ERROR MESSAGE</label><br>
+			
+			<!--////////EMPTY TO DO LIST!-->
+			<!-- <table id="todo_list" style="table-layout:fixed;"> -->
+			<div id="todo_list_div">
+				<!--NO ITEMS PLACED HERE INITIALLY!-->
+				<table id="todo_list" style="display:none; text-align:center;margin-top:2em;margin-bottom:2em;">
+				</table>
+			</div>
+
+			<button type="button"  onclick="export_todo_list();" style="margin-top:2em; border-color:#32CD32; background-color:black;color:#32CD32;">EXPORT TODO LIST</button><br><br>
+			
+		</div>
+	<!---------------------------------------------------------------------------------------------------------------------------------------->
+	<!---------------------------------------------------------------------------------------------------------------------------------------->
+	<!--//////////////////////////////JS SCRIPT(S)//////////////////////////////-->
+	<script>
+	
+		function submit_todo_item()
+			{
+				//RESOURCES: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_table_insert_deleterow
+				
+				///////////////////////////////////////////////////////INIT THE VARS///////////////////////////////////////////////////////
+
+				//Grab all values from input boxes:
+				var todo_item_entry					= todo_item.value;
+				var todo_info_entry					= todo_item_info.value;
+				var todo_item_entry_length			= todo_item_entry.length;
+				///Since the Inputted year gets added in first, we'll fix that and place it on screen correctly.
+				var temp_date_var_1					= todo_item_date.value;
+				var temp_date_var_2					= "";//date_fixed.slice(0,4); 		//2020 
+				var temp_date_var_3 				= "";//date_fixed.slice(5,10) + "-";	//12-25 + "-"
+				var date_fixed 						= "";//temp_var_2 + temp_var;
+				var todo_date_fixed_entry			= "";
+				
+				console.log("Current TODO ITEM ENTRY SAYS: " + todo_item_entry);
+				console.log("Current TODO ITEM DATE ENTRY SAYS: " + temp_date_var_1);
+				console.log("Current TODO ITEM INFO ENTRY SAYS: " + todo_info_entry);
+				/////////////////////////////////////////////////////////////////////////////////////////////////////
+				/////////////////////////////////////////////Validate the inputs now
+				if (todo_item_entry_length < 5)
+					{document.getElementById("todo_item_error_msg").style.display = "block"; console.log("ITEM ERROR"); 
+					}else{document.getElementById("todo_item_error_msg").style.display = "none";}
+					
+				if (temp_date_var_1 == "")
+					{document.getElementById("todo_item_date_error_msg").style.display = "block"; console.log("DATE ERROR"); 
+					}else{document.getElementById("todo_item_date_error_msg").style.display = "none";}
+					
+				if (todo_info_entry == ""){todo_info_entry = "NONE";}
+				
+				if (document.getElementById("todo_item_error_msg").style.display == "block" || document.getElementById("todo_item_date_error_msg").style.display == "block" )
+					{return;}
+				/////////////////////////////////////////////////////////////////////////////////////////////////////	
+				/////////////////////////////////////////////////////////////////////////////////////////////////////
+				//If all inputs are valid, fix the date input to expected MM-DD-YYYY and then create the new table row inside the table.
+				temp_date_var_2						= temp_date_var_1.slice(00,04);
+				temp_date_var_3 					= temp_date_var_1.slice(05,10);
+				todo_date_fixed_entry				= temp_date_var_3 + "-" + temp_date_var_2;
+				/////////////////I don't think this was proper to make, just to put the year at the end in MM-DD-YYYY format
+				/////////////////But it's not my fault that JS receives DATE INPUT as YYYY-MM-DD
+				var table							= document.getElementById("todo_list");	table.style.display = "inline-block";
+				var row 							= table.insertRow(0);
+				/////////////////////////////////////////////////////////////////////////////////////////////////////
+				/////////////////////////////////////////////////////////////////////////////////////////////////////
+				//Insert new row for the 3 entries: ITEM, DATE, INFO, & DELETE BUTTON, along with their custom values
+				var delete_button 					= document.createElement("BUTTON");
+				var todo_complete_item_entry		=  "DATE: " + todo_date_fixed_entry + "<br />ITEM: " + todo_item_entry + "<br /><br />INFO: " +todo_info_entry;
+				var insert_todo_complete_item_entry	= row.insertCell(0);
+				insert_todo_complete_item_entry.innerHTML 	= todo_complete_item_entry;
+				
+				//insert_todo_complete_item_entry.innerHTML 	= table.rows[0].appendChild(delete_button);
+				////////////////////Everything for the delete button!
+				
+				//table.appendChild(delete_button);
+				table.rows[0].cells[0].appendChild(delete_button);
+				//insert_todo_complete_item_entry.innerHTML 	= delete_button;
+				delete_button.innerHTML				= "DELETE ITEM ENTRY";
+				//delete_button.style.marginLeft		= "60%";
+				delete_button.style.marginTop		= "0.25em";
+				delete_button.style.marginBottom	= "0.25em";
+				delete_button.style.width			= "100%";
+				delete_button.style.backgroundColor = "black";
+				delete_button.style.color			= "red";
+				delete_button.solid					= "red";
+				delete_button.style.border			= "2px";
+				delete_button.style.borderColor		= "red";
+				delete_button.onclick				= 'delete_todo_item(this)';
+				delete_button.setAttribute("onclick","delete_todo_item(this)");
+				delete_button.setAttribute("name","mr_deleter");
+				/////////////////////////////////////////////////////////////////////////////////////////////////////
+				//Just in case...
+				var table_length					= table.rows.length;
+				console.log("Current table length is : " + table_length); 
+				/////////////////////////////////////////////////////////////////////////////////////////////////////
+				//Reset the input boxes now since the todo item entry has been successfully added to the list.
+				document.getElementById("todo_item").value 			= "";
+				document.getElementById("todo_item_date").value 	= "";
+				document.getElementById("todo_item_info").value 	= "";
+				//////////////////////////////////////////////////////////////////////////////
+				//Testing to see what possibly save to text file!!
+				var textToSave = table.innerText.replaceAll('DELETE ITEM ENTRY','');
+				console.log(textToSave);
+				//textToSave = textToSave.replace('DELETE ITEM ENTRY','');
+				//console.log(textToSave);
+				//This works, but I don't want to save the button text to text file!!!
+				//This formats better as intended, but I still don't want the button text.
+				//NEED TO KEEP THIS IN MIND!
+				//https://stackoverflow.com/questions/19985306/get-the-innertext-of-an-element-but-exclude-hidden-children
+			}
+
+	</script>
+	<!---------------------------------------------------------------------------------------------------------------------------------------->
+	<!---------------------------------------------------------------------------------------------------------------------------------------->
+	<!---------------------------------------------------------------------------------------------------------------------------------------->
+	<script>
+			function delete_todo_item(find_row_num)
+			{
+				var table							= document.getElementById("todo_list");
+				var table_length					= table.rows.length;
+				console.log(table_length); 
+				console.log(find_row_num); 
+				console.log("DELETE BUTTON's VALUE IS :" + find_row_num.value); // THIS WORKS AS INTENDED BECAUSE CHECKING VALUE OF "THIS" WILL JUST RETURN HTML ELEMENT BUTTON OR SOME SORT AND THAT'S NOT GOOD!
+				////////////////////////////////////////////////////////////////////////
+				//SRC: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_table_deleterow2
+				var exact_table_row = find_row_num.parentNode.parentNode.rowIndex;
+				table.deleteRow(exact_table_row);	// Goodbye, cruel world!
+				/////////////////////////////////////////////////////////////////////////
+				//Somehow....this function is still going! I was expecting this function to exit since I just deleted the table row. This is good beans for me!
+				//Count How many delete buttons are in the todo list now!
+				var buttons_total = document.querySelectorAll('#todo_list_div button');
+				console.log("Current amount of DELETE buttons in TODO LIST: " + buttons_total.length);
+				//////////////////If there's no entries in the table, hide the table so there's no little table square on the screen.
+				if (buttons_total.length < 1)
+					{table.style.display = "none";}
+			}
+	</script>
+<!---------------------------------------------------------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------------------------------------------->
+	<script>
+			function export_todo_list()
+			{
+				//Attempt #1 to export TODO LIST TO TXT FILE:
+				var table							= document.getElementById("todo_list");
+				var table_length					= table.rows.length;
+				console.log("Current number of rows inside table: " + table_length);
+				/////If there's no table rows in the table, exit this function.
+				if (table_length < 1){console.log("Why do you want to export an empty table?\nWhat are you doing with your digital life?");return;}
+				///////////////////////////////////////////////////////////////////////
+				//SRC: https://thiscouldbebetter.wordpress.com/2012/12/18/loading-editing-and-saving-a-text-file-in-html5-using-javascrip/
+				//If there's table data, export to txt file.
+				//SRC: https://www.geeksforgeeks.org/how-to-access-tr-element-from-table-using-javascript/
+				//var textToSave = table.innerHTML;// THIS WORKS!! NOW TO ACCESS TR DATA
+				//var textToSave = table.textContent;
+				//var buttom_text = getElementsByTagName("button") - 
+				var textToSave = "THIS IS YOUR CUSTOM TODO LIST!\r\n\r\n" + table.innerText.replaceAll('DELETE ITEM ENTRY','');
+				textToSave = textToSave.replaceAll('DATE:','\r\n\r\nDATE:');
+				textToSave = textToSave.replaceAll('ITEM:','\r\nITEM:');
+				textToSave = textToSave.replaceAll('INFO:','\r\n\nINFO:');
+				//textToSave = textToSave.replace('DELETE ITEM ENTRY','');
+				//console.log(textToSave);
+				var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
+				var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
+				var fileNameToSaveAs = "todo_list_output.txt";
+			 
+				var downloadLink = document.createElement("a");
+				downloadLink.download = fileNameToSaveAs;
+				downloadLink.innerHTML = "Download File";
+				downloadLink.href = textToSaveAsURL;
+				downloadLink.onclick = destroyClickedElement;
+				downloadLink.style.display = "none";
+				document.body.appendChild(downloadLink);
+			 
+				downloadLink.click();
+			}
+			
+			function destroyClickedElement(event)
+				{
+					document.body.removeChild(event.target);
+				}
+	</script>
+<!---------------------------------------------------------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------------------------------------------->
+<!---------------------------------------------------------------------------------------------------------------------------------------->
+	
+	<!--//////////////////////////////END JS SCRIPT(S)//////////////////////////////-->
+	
+	<!--/////////////////////END BODY/////////////////////-->
+  
+</body>
+
+
+
+<!--END PAGE!-->
+</html>
